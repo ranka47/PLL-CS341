@@ -1,4 +1,7 @@
 package Thread;
+import Thread.operations.Average;
+import Thread.operations.Multiply;
+import Thread.operations.Sum;
 import com.company.Main;
 
 import java.math.BigInteger;
@@ -11,6 +14,9 @@ public class device {
     public int count = 0;
     sensor device[] = new sensor[Main.SENSORS];
     public isReady flag;
+    public Sum threadSum;
+    public Multiply threadMul;
+    public Average threadAvg;
     public device(){
         for(int i=0; i<Main.SENSORS; i++){
             device[i] = new sensor(Integer.toString(i));
@@ -18,39 +24,10 @@ public class device {
         flag = new isReady(this);
     }
 
-    public static double average(ArrayList<Integer> data){
-        long sum = 0;
-        for(int i=0; i<data.size(); i++){
-            sum = sum + data.get(i);
-        }
-        return sum/(double)(data.size());
-    }
-
-    public static long sum(ArrayList<Integer> data){
-        long sum = 0;
-        for(int i=0; i<data.size(); i++){
-            sum = sum + data.get(i);
-        }
-        return sum;
-    }
-
-    public static BigInteger multiply(ArrayList<Integer> data){
-        BigInteger mul = new BigInteger("1");
-        for(int i=0; i<data.size(); i++){
-            mul = mul.multiply(BigInteger.valueOf(data.get(i)));
-        }
-        return mul;
-    }
-
-    public static void checkConditions(ArrayList<Integer> data){
-        if(average(data) > 100)            System.out.println("State detected from Average");
-        else            System.out.println("State not detected from Average");
-
-        if(sum(data) > 100)            System.out.println("State detected from Sum");
-        else            System.out.println("State not detected from Sum");
-
-        if(multiply(data).compareTo(BigInteger.valueOf(100000)) > 0)            System.out.println("State detected from Multiply");
-        else            System.out.println("State not detected from Multiple");
+    public void checkConditions(ArrayList<Integer> data){
+        threadSum = new Sum(data);
+        threadAvg = new Average(data);
+        threadMul = new Multiply(data);
     }
 
 }

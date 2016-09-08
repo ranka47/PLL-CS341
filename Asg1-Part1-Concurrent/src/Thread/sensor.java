@@ -8,8 +8,6 @@ import com.company.Main;
 
 import java.util.*;
 
-import static Thread.device.checkConditions;
-
 public class sensor extends Thread{
 
     public LinkedList<Integer> sensorData = new LinkedList<>();
@@ -27,12 +25,6 @@ public class sensor extends Thread{
         start();
     }
 
-    public void displayData(){
-        System.out.print("Thread: " + Thread.currentThread().getName());
-        for(int i=0; i<sensorData.size(); i++){
-            System.out.print(" " + sensorData.get(i));
-        }
-    }
     @Override
     public void run(){
         int count = 0;

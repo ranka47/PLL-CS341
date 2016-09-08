@@ -4,7 +4,6 @@ import com.company.Main;
 
 import java.util.ArrayList;
 
-import static Thread.device.checkConditions;
 
 /**
  * Created by sumeet.ranka47 on 30-08-2016.
@@ -30,7 +29,15 @@ public class isReady extends Thread {
                     for(int i=0; i<Main.SENSORS; i++){
                         sensorData.add(Device.device[i].sensorData.removeFirst());
                     }
-                    checkConditions(sensorData);
+                    Device.checkConditions(sensorData);
+                    try {
+                        Device.threadAvg.join();
+                        Device.threadMul.join();
+                        Device.threadSum.join();
+                    } catch (InterruptedException e) {
+                        System.out.println("Interrupted Exception for thread: " + Thread.currentThread().getName());
+                    }
+
                     System.out.print(Device.count + ": ");
                     for(int i=0; i<Main.SENSORS; i++){
                         System.out.print(sensorData.get(i) + " ");
