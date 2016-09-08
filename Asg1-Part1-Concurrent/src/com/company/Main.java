@@ -2,8 +2,8 @@ package com.company;
 
 import Thread.device;
 public class Main {
-    public static final Integer DATALIMIT = 30;
-    public static final int SENSORS = 20;
+    public static final Integer DATALIMIT = 50;
+    public static final int SENSORS = 40;
     public static void main(String[] args) {
         // write your code here
 

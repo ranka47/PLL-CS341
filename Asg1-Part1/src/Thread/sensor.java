@@ -8,12 +8,8 @@ import com.company.Main;
 
 import java.util.*;
 
-import static Thread.device.checkConditions;
-
 public class sensor extends Thread{
 
-    public static Integer minDataProduced = 0;
-    public static Integer threadWithMin = 10;
     public LinkedList<Integer> sensorData = new LinkedList<>();
     public static String randomBinString(int length){
         Random rand = new Random();
@@ -29,12 +25,6 @@ public class sensor extends Thread{
         start();
     }
 
-    public void displayData(){
-        System.out.print("Thread: " + Thread.currentThread().getName());
-        for(int i=0; i<sensorData.size(); i++){
-            System.out.print(" " + sensorData.get(i));
-        }
-    }
     @Override
     public void run(){
         int count = 0;
@@ -43,11 +33,11 @@ public class sensor extends Thread{
             Integer sensorOutputInt = Integer.parseInt(sensorOutputBin, 2);
             sensorData.add(sensorOutputInt);
             count++;
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                System.out.println("Interrupted Exception for thread: " + Thread.currentThread().getName());
-            }
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                System.out.println("Interrupted Exception for thread: " + Thread.currentThread().getName());
+//            }
         }
     }
 }

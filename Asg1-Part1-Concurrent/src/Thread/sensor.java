@@ -7,10 +7,9 @@ package Thread;
 import com.company.Main;
 
 import java.util.*;
-
+import java.util.concurrent.atomic.AtomicReference;
 public class sensor extends Thread{
-
-    public LinkedList<Integer> sensorData = new LinkedList<>();
+    public AtomicReference<LinkedList<Integer>> sensorData = new AtomicReference<>(new LinkedList<Integer>());
     public static String randomBinString(int length){
         Random rand = new Random();
         String str = "";
@@ -31,13 +30,17 @@ public class sensor extends Thread{
         while(count < Main.DATALIMIT) {
             String sensorOutputBin = randomBinString(8);
             Integer sensorOutputInt = Integer.parseInt(sensorOutputBin, 2);
-            sensorData.add(sensorOutputInt);
+
+            LinkedList<Integer> temp = sensorData.get();
+            temp.add(sensorOutputInt);
+            sensorData.getAndSet(temp);
+
             count++;
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                System.out.println("Interrupted Exception for thread: " + Thread.currentThread().getName());
-            }
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                System.out.println("Interrupted Exception for thread: " + Thread.currentThread().getName());
+//            }
         }
     }
 }

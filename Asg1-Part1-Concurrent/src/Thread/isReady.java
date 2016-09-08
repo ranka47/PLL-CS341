@@ -4,7 +4,6 @@ import com.company.Main;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by sumeet.ranka47 on 30-08-2016.
  */
@@ -20,14 +19,13 @@ public class isReady extends Thread {
     @Override
     public void run(){
         while(Device.count < Main.DATALIMIT){
-//            synchronized (Device.device){
                 for (int i = 0; i< Main.SENSORS; i++){
-                    isReady = isReady && !Device.device[i].sensorData.isEmpty();
+                    isReady = isReady && !Device.device[i].sensorData.get().isEmpty();
                 }
                 if(isReady){
                     ArrayList<Integer> sensorData = new ArrayList<>();
                     for(int i=0; i<Main.SENSORS; i++){
-                        sensorData.add(Device.device[i].sensorData.removeFirst());
+                            sensorData.add(Device.device[i].sensorData.get().removeFirst());
                     }
                     Device.checkConditions(sensorData);
                     try {
@@ -38,7 +36,7 @@ public class isReady extends Thread {
                         System.out.println("Interrupted Exception for thread: " + Thread.currentThread().getName());
                     }
 
-                    System.out.print(Device.count + ": ");
+                    System.out.print((Device.count+1) + ": ");
                     for(int i=0; i<Main.SENSORS; i++){
                         System.out.print(sensorData.get(i) + " ");
                     }
@@ -46,7 +44,6 @@ public class isReady extends Thread {
 
                     Device.count++;
                 }
-//            }
             isReady = true;
         }
     }
