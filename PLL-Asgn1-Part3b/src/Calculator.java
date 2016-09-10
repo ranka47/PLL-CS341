@@ -43,43 +43,64 @@ public class Calculator extends JFrame {
         tfResult.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (c == KeyEvent.VK_ENTER) {
-                    if(flag==0) cur_total = 0;
-                    cur_total = cur_total*10 + current;
-                    flag = 1;
-                    tfResult.setText(""+cur_total);
-                }
-                if (c == KeyEvent.VK_SPACE) {
-                    switch (cur_op) {
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                            total = cur_total;
-                            cur_total = 0;
-                            operation = cur_op;
-                            break;
-                        case 4:
-                            switch (operation) {
+                final KeyEvent key = e;
+                SwingWorker<String,Void> keyWorker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        char c = key.getKeyChar();
+                        if (c == KeyEvent.VK_ENTER) {
+                            if(flag==0) cur_total = 0;
+                            cur_total = cur_total*10 + current;
+                            flag = 1;
+                            return cur_total+"";
+                        }
+                        if (c == KeyEvent.VK_SPACE) {
+                            switch (cur_op) {
                                 case 0:
-                                    total = total + cur_total;
-                                    break;
                                 case 1:
-                                    total = total - cur_total;
-                                    break;
                                 case 2:
-                                    total = total * cur_total;
-                                    break;
                                 case 3:
-                                    total = total / cur_total;
+                                    total = cur_total;
+                                    cur_total = 0;
+                                    operation = cur_op;
                                     break;
+                                case 4:
+                                    switch (operation) {
+                                        case 0:
+                                            total = total + cur_total;
+                                            break;
+                                        case 1:
+                                            total = total - cur_total;
+                                            break;
+                                        case 2:
+                                            total = total * cur_total;
+                                            break;
+                                        case 3:
+                                            total = total / cur_total;
+                                            break;
+                                    }
+                                    cur_total = total;
+                                    return total+"";
                             }
-                            cur_total = total;
-                            tfResult.setText(""+total);
+                            flag = 0;
+                        }
+                        return null;
                     }
-                    flag = 0;
-                }
+
+                    @Override
+                    protected void done() {
+                        String s = new String();
+                        try {
+                            s = get();
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        } catch (ExecutionException e1) {
+                            e1.printStackTrace();
+                        }
+                        tfResult.setText(s);
+                    }
+                };
+                keyWorker.execute();
             }
         });
 
@@ -106,7 +127,6 @@ public class Calculator extends JFrame {
                     Thread.sleep(800);
                     i = (i + 1) % 10;
                     j++;
-                    System.out.println(""+i);
                 }
                 return true;
             }

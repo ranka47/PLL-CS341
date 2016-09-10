@@ -41,35 +41,55 @@ public class Calculator extends JFrame {
         tfResult.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if(c == KeyEvent.VK_ENTER)  {
-                    if (numSelect) {
-                        numSelect = false;
-                        opSelect = true;
+                final KeyEvent key = e;
+                SwingWorker<String,Void> keyWorker = new SwingWorker<String, Void>() {
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        char c = key.getKeyChar();
+                        if(c == KeyEvent.VK_ENTER)  {
+                            if (numSelect) {
+                                numSelect = false;
+                                opSelect = true;
 
-                        switch (operation) {
-                            case 0:
-                                total = total + current;
-                                break;
-                            case 1:
-                                total = total - current;
-                                break;
-                            case 2:
-                                total = total * current;
-                                break;
-                            case 3:
-                                total = total / current;
-                                break;
-                            default:
-                                total = current;
+                                switch (operation) {
+                                    case 0:
+                                        total = total + current;
+                                        break;
+                                    case 1:
+                                        total = total - current;
+                                        break;
+                                    case 2:
+                                        total = total * current;
+                                        break;
+                                    case 3:
+                                        total = total / current;
+                                        break;
+                                    default:
+                                        total = current;
+                                }
+                                return total+"";
+                            }
+                            else if(opSelect)   {
+                                opSelect = false;
+                                numSelect = true;
+                            }
                         }
-                        tfResult.setText("" + total);
+                        return null;
                     }
-                    else if(opSelect)   {
-                        opSelect = false;
-                        numSelect = true;
+                    @Override
+                    protected void done()   {
+                        String s = new String();
+                        try {
+                            s = get();
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        } catch (ExecutionException e1) {
+                            e1.printStackTrace();
+                        }
+                        tfResult.setText(s);
                     }
-                }
+                };
+                keyWorker.execute();
             }
         });
 
