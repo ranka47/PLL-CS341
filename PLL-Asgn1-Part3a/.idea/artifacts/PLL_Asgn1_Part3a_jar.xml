@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PLL-Asgn1-Part3a:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PLL_Asgn1_Part3a_jar</output-path>
+    <root id="archive" name="PLL-Asgn1-Part3a.jar">
+      <element id="module-output" name="PLL-Asgn1-Part3a" />
+    </root>
+  </artifact>
+</component>
