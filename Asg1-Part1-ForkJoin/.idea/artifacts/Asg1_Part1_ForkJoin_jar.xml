@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Asg1-Part1-ForkJoin:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Asg1_Part1_ForkJoin_jar</output-path>
+    <root id="archive" name="Asg1-Part1-ForkJoin.jar">
+      <element id="module-output" name="Asg1-Part1-ForkJoin" />
+    </root>
+  </artifact>
+</component>
